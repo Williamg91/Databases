@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="eksport00@80.198.171.108" uuid="849113b5-814c-4fa1-94cc-6d38a7b9d1a6">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://80.198.171.108:3306/eksport00</jdbc-url>
+    </data-source>
+  </component>
+</project>
