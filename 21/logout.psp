@@ -1,0 +1,8 @@
+<%
+session.invalidate()
+psp.redirect("index.psp")
+%>
+<html>
+<head></head>
+<body></body>
+</html>

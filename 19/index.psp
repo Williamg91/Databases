@@ -1,0 +1,110 @@
+<html>
+<head>
+<title>Log ind</title>
+</head>
+<body>
+<%
+import time
+from bsddb import db
+
+class ordrelinie :
+	def __init__(x,id,navn,pris,antal) :
+		x.id = id
+		x.navn = navn
+		x.pris = eval(pris)
+		x.antal = eval(antal)
+	def vis(x) :
+		return str(x.antal)+" "+x.id+" "+x.navn+" "+str(x.pris)+" "+str(x.pris*x.antal)
+
+new = False
+if session.has_key("user") :
+    id = session["user"]
+else :
+	id = form.getfirst("ID")
+	pw = form.getfirst("PW")
+	if id :
+		id = str(id).lower()
+
+	accessDB = db.DB()
+	accessDB.open('/home/holst/access.db', None, db.DB_HASH, db.DB_DIRTY_READ)
+
+	cursor = accessDB.cursor()
+	rec = cursor.first()
+	OK = False
+	while not OK and rec :
+		OK = id == rec[0] and pw == rec[1]
+		rec = cursor.next()
+	# end while
+	accessDB.close()
+	if OK :
+		session["user"] = id
+	else :
+		new = True
+	# end else
+# end else
+if not new :
+%>
+<div align="CENTER">
+<h2>Velkommen <%= id %></h2>
+<p>Dato og tid: <%=time.strftime("%d/%m %Y, %H:%M:%S") %></p>
+</div>
+<form action="data.psp" method="post">
+  <table align="CENTER">
+	<tr><td>
+    <label for="PID">Produkt ID: </label>
+	</td><td>
+    <input type="text" name="PI" id="PID" required>
+	</td></tr><tr><td>
+    <label for="PNV">Produkt navn: </label>
+	</td><td>
+    <input type="text" name="PN" id="PNV" required>
+	</td></tr><tr><td>
+    <label for="PPR">Produkt pris: </label>
+	</td><td>
+    <input type="text" name="PR" id="PPR" required>
+	</td></tr><tr><td>
+    <label for="PAT">Antal: </label>
+	</td><td>
+    <input type="text" name="PA" id="PAT" required>
+	</td></tr><tr><td>
+	</td></tr><tr><td colspan="2" align="RIGHT">
+    <input type="submit" value="Gem data">
+	</td></tr>
+  </table>
+</form>
+<%
+else :
+%>
+<h1 align="CENTER">Login</h1>
+<form action="index.psp" method="post">
+  <table align="CENTER">
+<%
+	if id or pw :
+%>
+	<tr><td colspan="2" align="CENTER">
+		Fejl: pr&oslash;v igen!
+	</td></tr>
+<%
+	# end if
+%>
+	<tr><td>
+    <label for="ID">Angiv ID: </label>
+	</td><td>
+    <input type="text" name="ID" id="ID" required>
+	</td></tr><tr><td>
+    <label for="PW">Angiv kodeord: </label>
+	</td><td>
+    <input type="password" name="PW" id="kodeord" required>
+	</td></tr><td colspan="2" align="RIGHT">
+    <input type="submit" value="Log ind">
+	</td></tr>
+  </table>
+</form>
+<form action="new.psp" align="CENTER" method="post">
+	<input type="submit" value="Opret konto">
+</form>
+<%
+# end else
+%>
+</body>
+</html>

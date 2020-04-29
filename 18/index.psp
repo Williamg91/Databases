@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Log ind</title>
+</head>
+<body>
+<%
+import time
+from bsddb import db
+
+if session.has_key("antal") :
+    antal = session["antal"]
+else :
+	antal = 0
+	session["antal"] = antal
+#end else
+%>
+<div align="CENTER">
+<h2>Velkommen</h2>
+<p>Dato og tid: <%=time.strftime("%d/%m %Y, %H:%M:%S") %></p>
+</div>
+<table align="CENTER">
+	<tr>
+		<form action="data.psp" method="post">
+			<input type="hidden" name="PI" value="AX12">
+			<input type="hidden" name="PN" value="Stol">
+			<input type="hidden" name="PR" value="3999.50">
+			<td align="LEFT">
+				Stol
+			</td><td align="RIGHT">
+				3999,50
+			</td><td>
+				<input type="number" name="PA" value="1" min="1" max="99">
+			</td><td>
+				<input type="submit" value="K&oslash;b">
+			</td>
+		</form>
+	</tr>
+	<tr>
+		<form action="data.psp" method="post">
+			<input type="hidden" name="PI" value="BX19">
+			<input type="hidden" name="PN" value="Bord">
+			<input type="hidden" name="PR" value="5975.00">
+			<td align="LEFT">
+				Bord
+			</td><td align="RIGHT">
+				5975,00
+			</td><td>
+				<input type="number" name="PA" value="1" min="1" max="99">
+			</td><td>
+				<input type="submit" value="K&oslash;b">
+			</td>
+		</form>
+	</tr>
+</table>
+</body>
+</html>

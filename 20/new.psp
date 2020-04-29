@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>Opret bruger</title>
+</head>
+<body>
+<%
+import time
+from bsddb import db
+
+OK = False
+message = "Indtast det &oslash;nskede brugerid og kodeord:"
+id = form.getfirst("ID")
+pw = form.getfirst("PW")
+
+if id and pw :
+	id = str(id).lower()
+	accessDB = db.DB()
+	accessDB.open('/home/holst/access.db', None, db.DB_HASH, db.DB_DIRTY_READ)
+
+	cursor = accessDB.cursor()
+	rec = cursor.first()
+	OK = True
+	while OK and rec :
+		OK = id != rec[0]
+		rec = cursor.next()
+
+	if OK :
+		accessDB.put(id,pw)
+		session.invalidate()
+%>
+<h1 align="CENTER">Bruger oprettet</h1>
+<p align="CENTER">Din konto er blevet oprettet, du kan nu logge ind.</p>
+<form action="index.psp" align="CENTER" method="post">
+	<input type="submit" value="Log ind">
+</form>
+<%
+	else :
+		message ="Kontoen findes allerede, pr&oslash;v igen:"
+	# end else
+if not OK :
+%>
+<h1 align="CENTER">Opret konto</h1>
+<p align="CENTER"><%= message %></p>
+<form action="new.psp" method="post">
+  <table align="CENTER">
+	<tr><td>
+    <label for="ID">Angiv ID: </label>
+	</td><td>
+    <input type="text" name="ID" id="ID" required>
+	</td></tr><tr><td>
+    <label for="PW">Angiv kodeord: </label>
+	</td><td>
+    <input type="password" name="PW" id="kodeord" required>
+	</td></tr><td colspan="2" align="RIGHT">
+    <input type="submit" value="Opret konto">
+	</td></tr>
+  </table>
+</form>
+<%
+# end else
+%>
+</body>
+</html>

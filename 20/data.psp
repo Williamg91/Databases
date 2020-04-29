@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>Indtastning</title>
+</head>
+<body>
+<%
+import time
+from mod_python import apache
+ordrelinie = apache.import_module('~/ordrelinie.py')
+
+if session.has_key("user") :
+	id = session["user"]
+
+	if session.has_key("antal") :
+		antal = session["antal"]
+	else :
+		antal = 0
+		session["antal"] = 0
+
+	pid = form.getfirst("PI")
+	pnv = form.getfirst("PN")
+	ppr = form.getfirst("PR")
+	pat = form.getfirst("PA")
+	ol = ordrelinie.ordrelinie(pid,pnv,ppr,pat)
+
+	session["data"+str(antal)] = ol
+	antal += 1
+	session["antal"] = antal
+%>
+<div align="CENTER">
+<h2>Ordre:</h2>
+<%
+	for i in xrange(antal) :
+		ol = session["data"+str(i)]
+%>
+<p align="CENTER">
+	Linie:
+	<%=ol.vis()%>
+</p>
+<%
+	#end for
+%>
+<table align="CENTER">
+	<tr><td>
+		<form action="logout.psp" align="CENTER" method="post">
+			<input type="submit" value="Log ud">
+		</form>
+	</td></tr>
+	<tr><td>
+		<form action="index.psp" align="CENTER" method="post">
+			<input type="submit" value="Find">
+		</form>
+	</td></tr>
+</table>
+</div>
+<%
+else :
+%>
+<h1 align="CENTER">Login</h1>
+<form action="index.psp" method="post">
+  <table align="CENTER">
+	<tr><td>
+    <label for="ID">Angiv ID: </label>
+	</td><td>
+    <input type="text" name="ID" id="ID" required>
+	</td></tr><tr><td>
+    <label for="PW">Angiv kodeord: </label>
+	</td><td>
+    <input type="password" name="PW" id="kodeord" required>
+	</td></tr>
+	</td></tr><td colspan="2" align="RIGHT">
+    <input type="submit" value="Log ind">
+	</td></tr>
+  </table>
+</form>
+<form action="new.psp" align="CENTER" method="post">
+	<input type="submit" value="Opret konto">
+</form>
+<%
+# end else
+%>
+</body>
+</html>

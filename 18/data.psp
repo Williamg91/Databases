@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>Indtastning</title>
+</head>
+<body>
+<%
+import time
+
+if session.has_key("antal") :
+	antal = session["antal"]
+else :
+	antal = 0
+	session["antal"] = 0
+
+pid = form.getfirst("PI")
+pnv = form.getfirst("PN")
+ppr = form.getfirst("PR")
+pat = form.getfirst("PA")
+if pid and pnv and ppr and pat :
+	ol = [pid,pnv,ppr,pat]
+
+	session["data"+str(antal)] = ol
+	antal += 1
+	session["antal"] = antal
+
+f = "{:10.2f}"
+d = "{:3d}"
+%>
+<div align="CENTER">
+<h2>Ordre</h2>
+<table align="CENTER">
+<%
+for i in xrange(antal) :
+	ol = session["data"+str(i)]
+%>
+	<tr><td align="RIGHT">
+	<%=d.format(eval(ol[3]))%>
+	</td><td>
+	<%=ol[0]%>
+	</td><td>
+	<%=ol[1]%>
+	</td><td align="RIGHT">
+<%
+	s = f.format(eval(ol[2]))
+	s = s.replace(".",",")
+%>
+	<%=s%>
+	</td><td align="RIGHT">
+<%
+	s = f.format(eval(ol[3])*eval(ol[2]))
+	s = s.replace(".",",")
+%>
+	<%=s%>
+	</td></tr>
+<%
+# end for
+%>
+</table>
+<%@ include file="knap.html"%>
+</div>
+</body>
+</html>

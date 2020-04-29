@@ -1,0 +1,32 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+
+<%
+import time
+%>
+
+<!-- vi kan ikke importere Python filer, men vi KAN inkludere PSP filer. -->
+
+
+
+<%@ include file="DBC.psp"%>
+<%
+Databaseobjekt = Database("eksport00","hestehest")
+
+forbindelse = Databaseobjekt.createConnection()
+%>
+
+
+
+<!-- Her -->
+
+</body>
+</html>
+

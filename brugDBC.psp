@@ -1,0 +1,36 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DU har NU brugt din databaseforbindelse</title>
+</head>
+<%
+import time
+%>
+<!-- vi kan ikke importere Python klasser vi har lavet, men vi KAN inkludere PSP filer. -->
+<%@ include file="DBC.psp"%>
+<!-- #vigtigt fordi ellers må vi ikke bruge noget python -->
+<%
+Databaseobjekt = Database("eksport00","hestehest")
+<!-- Lav objekter til databaseklassen, og opret en forbindelse -->
+forbindelse = Databaseobjekt.createConnection()
+fornavn = form.getfirst("fornavn")
+fornavn = form.getfirst("efternavn")
+password = form.getfirst("pw")
+mail = form.getfirst("mail")
+adresse = form.getfirst(adresse)
+
+%>
+
+<body>
+  <!-- Her -->
+<form class="" action="brugDBC.psp" method="post">
+  <input type="text" name="fnavn" value="fornavn">
+  <input type="text" name="enavn" value="efternavn">
+  <input type="submit" name="" value="Lav ny bruger">
+</form>
+
+
+</body>
+
+</html>
